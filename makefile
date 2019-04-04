@@ -1,5 +1,5 @@
 # Compiler
-CC = gcc
+CC = g++
 # Headers, target and flag for compiling
 # PThreads
 PTHEADERS = pthread_shortpath.h
@@ -18,11 +18,11 @@ all: omp pt
 
 # Command: $ make omp
 omp: $(OMPTARGET).c $(OMPHEADERS)
-	$(CC)-8 $(OMPFLAG) -o $(OMPTARGET).o $(OMPTARGET).c
+	$(CC)-8 $(OMPFLAG) -o $(OMPTARGET).o $(OMPTARGET).cpp
 
 # Command: $ make pt
 pt: $(PTTARGET).c $(PTHEADERS)
-	$(CC) $(PTFLAG) -o $(PTTARGET).o $(PTTARGET).c
+	$(CC) $(PTFLAG) -o $(PTTARGET).o $(PTTARGET).cpp
 
 # Command: $ make omp1
 omp1: ./$(OMPTARGET).o
@@ -30,7 +30,7 @@ omp1: ./$(OMPTARGET).o
 
 # Command: $make pt1
 pt1: ./$(PTTARGET).o
-	./$(PTTARGET).o $(PATH1) 
+	./$(PTTARGET).o $(PATH1)
 
 clean:
 	rm *.o
