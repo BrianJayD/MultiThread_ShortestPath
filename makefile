@@ -17,11 +17,11 @@ PATH1 = 1.path
 all: omp pt
 
 # Command: $ make omp
-omp: $(OMPTARGET).c $(OMPHEADERS)
+omp: $(OMPTARGET).cpp $(OMPHEADERS)
 	$(CC)-8 $(OMPFLAG) -o $(OMPTARGET).o $(OMPTARGET).cpp
 
 # Command: $ make pt
-pt: $(PTTARGET).c $(PTHEADERS)
+pt: $(PTTARGET).cpp $(PTHEADERS)
 	$(CC) $(PTFLAG) -o $(PTTARGET).o $(PTTARGET).cpp
 
 # Command: $ make omp1
