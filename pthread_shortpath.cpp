@@ -5,7 +5,8 @@ int main(int argc, char const *argv[]) {
 
   //An array of nodes; a node contains a string name and a map
   node nodes[numNodes];
-  Distance distances[numNodes];
+  map<string, int> distances;
+
 
   ifstream infile(argv[1]);
 
@@ -19,8 +20,9 @@ int main(int argc, char const *argv[]) {
     d = line.substr(delim_index + 1, line.length());
 
     nodes[nodeIndex] = setNode(n, d);
-    distances[nodeIndex].name = n;
-    distances[nodeIndex].path = 0;
+    distances.insert(pair<string, int>(n, 0));
+    //distances[nodeIndex].name = n;
+    //distances[nodeIndex].path = 0;
     nodeIndex++;
   }
 
@@ -40,24 +42,39 @@ int main(int argc, char const *argv[]) {
 
   for (int y = 0; y < numNodes; y++) {
 
-    cout << "NODE: "<< nodes[y].name << endl;
-
+    //cout << "NODE: "<< nodes[y].name << endl;
     //cout << "PATHS:" << endl;
-    for (itr = nodes[y].paths.begin(); itr != nodes[y].paths.end(); itr++) {
-      string key = itr->first;
 
-      //Check if the node we are inspecting has been visited yet.
-      //TODO
+    //itterate through each possible path connected to the node we are looking at
+    for (itr = nodes[y].paths.begin(); itr != nodes[y].paths.end(); itr++) {
+      string key = itr->first;            //first node connected
+      int dist = itr->second;             //value of the first node connected
 
       //If we have not already visited the node then add it to our visited list
       if(find(visited.begin(), visited.end(), key) == visited.end()){
-        visited.push_back(itr->first);
-        cout << itr->first << endl;
-      }
+        visited.push_back(key);
+        cout << "From node " + nodes[y].name  << endl;
+        //new distance = parent node distance plus distance to travel to new node
+        map<string, int>::iterator posIter = distances.find(key);
+        if(posIter != distances.end()){
+          cout << "Distance to " + key + ": "<< dist << endl;
+          posIter->second = dist;
+        }
 
+
+        distances.insert(pair<string, int>(key, dist));
+
+      }else{
+        //Now we have to check if this new path to the already visited variable is an improvement
+        if(dist > ){
+
+        }
+        //otherwise we update if we see an improvement
+
+        //get the current value of item we are trying to update
+      }
       //cout << itr->first << "\t" << itr->second << endl;
     }
-
   }
 
 
