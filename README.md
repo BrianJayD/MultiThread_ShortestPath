@@ -23,8 +23,13 @@ make pt
 # OpenMP (replace #)
 make omp#
 
-# POSIX Thread (replace #)
-make pt#
+# POSIX Thread (replace # for file number, @ for starting node)
+make pt#@
+
+# Example
+make pt1a
+make pt1b
+make pt1c
 ```
 
 ### *Sample path image references*
