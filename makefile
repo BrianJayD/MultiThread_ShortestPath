@@ -28,9 +28,17 @@ pt: $(PTTARGET).cpp $(PTHEADERS)
 omp1: ./$(OMPTARGET).o
 	./$(OMPTARGET).o $(PATH1)
 
-# Command: $make pt1
-pt1: ./$(PTTARGET).o
-	./$(PTTARGET).o $(PATH1)
+# Command: $make pt1a
+pt1a: ./$(PTTARGET).o
+	./$(PTTARGET).o $(PATH1) a
+
+# Command: $make pt1b
+pt1b: ./$(PTTARGET).o
+	./$(PTTARGET).o $(PATH1) b
+
+# Command: $make pt1c
+pt1c: ./$(PTTARGET).o
+	./$(PTTARGET).o $(PATH1) c
 
 clean:
 	rm *.o
