@@ -1,5 +1,11 @@
 #include "pthread_shortpath.h"
 
+
+vector<string> visited;
+map<string, int> distances;
+vector<node> nodes;
+
+
 int main(int argc, char const *argv[]) {
   int numNodes = countLines(argv[1]);
 
@@ -13,8 +19,8 @@ int main(int argc, char const *argv[]) {
   // Changed node array to node vector
   //
   // An array of nodes; a node contains a string name and a map
-  vector<node> nodes;
-  map<string, int> distances;
+
+  //have to make this global
 
   ifstream infile(argv[1]);
 
@@ -48,7 +54,6 @@ int main(int argc, char const *argv[]) {
   // BRIAN
   // Pushes start node to already visited because we start there
   //Have to create a map that will show all the nodes that we have visited so far
-  vector<string> visited;
   visited.push_back(startNode);
 
   cout << "Node being checked: " + startNode << endl;
@@ -76,12 +81,47 @@ int main(int argc, char const *argv[]) {
 
   // BRIAN
   // Go through each node that exists
+  for(int i = 0; i < nodeIndex; i++){
+
+    cout << "////////////////////" << endl;
+    cout << "ITERATION: " << i << endl;
+    cout << "////////////////////" << endl;
+
+    //when we break bellman ford is done
+    if(bellmanFord(numNodes, itr, startNode)){
+      cout << "Algorithm complete! Shortest Paths found shown above" << endl;
+      break;
+    }else{
+      cout << "Algorithm incomplete! Checking one more time" << endl;
+
+    }
+
+
+
+  }
+
+  return 0;
+}
+
+
+//create a function here that performs 1 iteration of bellman fords and returns a boolean
+//TODO
+//boolean iterations()
+bool bellmanFord(int numNodes, map<string, int>::iterator itr, string startNode){
+
+  bool finished = true;
+
   for(int y = 0; y < numNodes; y++) {
     cout << "----------------------------------------------------------" << endl;
     cout << "NODE being checked " + nodes[y].name << endl;
 
     // BRIAN
     // Go through each path the node goes to
+
+    //CHRISTIEN
+    //this part will be threaded. Each thread will read each node and what they connect to
+    //in parallel. Then they will sequentially update the table aftwerwards since the updated
+    //depends on the ordering of all nodes being read
     for (itr = nodes[y].paths.begin(); itr != nodes[y].paths.end(); itr++) {
       // BRIAN
       // I got too tired to come up with short variable names.
@@ -120,8 +160,10 @@ int main(int argc, char const *argv[]) {
           cout << "NODE " + key + " NOT FOUND" << endl;
           visited.push_back(key);
 
+          //set our boolean value to false since there was a change in the  distance map
           if(distItr != distances.end()) {
             distItr->second = currentNodeDist + dist;
+            finished = false;
           }
 
           cout << "NODE " + key + " HAS BEEN VISITED" << endl;
@@ -136,10 +178,12 @@ int main(int argc, char const *argv[]) {
             // BRIAN
             // IF, sum is less than whats in the distances map. Update.
             // ELSE, sum is too large. No update.
+            // change boolean to false since there was an update
             if (distItr->second > sum) {
               cout << "NODE " + key + " HAS BEEN UPDATED (current=" << distItr->second
                 << " longer than " << sum << ")" << endl;
               distItr->second = sum;
+              finished = false;
             } else {
               cout << "NODE " + key + " TOO FAR, NO UPDATE (current=" << distItr->second
                 << " shorter than " << sum << ")" << endl;
@@ -161,60 +205,11 @@ int main(int argc, char const *argv[]) {
         cout << "CANNOT FIND PATH TO " << nodes[y].name << endl;
         //cout << "Adding " << dist << " + " << distances.find(key)->second << endl;
       }
-
-      // BRIAN
-      // COMMENTED OUT CHRISTIENS CODE
-      //If we have not already visited the node then add it to our visited list
-      /*if(notVisited){
-        cout << "NOT FOUND" << endl;
-        visited.push_back(key);
-        cout << "Placed " + key << endl;
-        //new distance = parent node distance plus distance to travel to new node
-        map<string, int>::iterator posIter = distances.find(key);
-        if(posIter != distances.end()){
-          //cout << "Distance to " + key + ": "<< dist + distances.find(nodes[y].name)->second << endl;
-          posIter->second = dist + distances.find(nodes[y].name)->second;
-        }
-
-
-        //distances.insert(pair<string, int>(key, dist));
-
-      }else{
-        cout << "FOUND" << endl;
-        //Now we have to check if this new path to the already visited variable is an improvement
-        if(distances.find(key)->second > dist + distances.find(nodes[y].name)->second && !notVisited ){
-          cout <<  "new distance to " + key + ": " << dist  << " + " << distances.find(nodes[y].name)->second << endl;
-        }
-        //otherwise we update if we see an improvement
-        //get the current value of item we are trying to update
-      }*/
-      //cout << itr->first << "\t" << itr->second << endl;
     }
-    //printVisited(visited);
-    //itterate through each possible path connected to the node we are looking at
   }
-
-
-
-
-
-  //Here we have to go through each node for a certain amount of iterations
-  /*while(some boolean == false){
-
-    // read through each node and keep its count
-
-
-
-    }
-  */
-
-  return 0;
+  return finished;
 }
 
-
-//create a function here that performs 1 iteration of bellman fords and returns a boolean
-//TODO
-//boolean iterations()
 
 // BRIAN
 // Print map function

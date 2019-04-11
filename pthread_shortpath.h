@@ -8,6 +8,9 @@
 #include <vector>
 #include <algorithm>
 #include <cctype>
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
 
 using namespace std;
 
@@ -22,6 +25,11 @@ struct Distance {
   int path;
 };
 
+struct thread_data{
+  
+
+}
+
 node setNode(string nodeName, string data);
 
 int countLines(string file);
@@ -29,3 +37,5 @@ int countLines(string file);
 void printVisited(vector<string> vec);
 
 void printMap(map<string, int> distMap);
+
+bool bellmanFord(int numNodes, map<string, int>::iterator itr, string startNode);

@@ -11,6 +11,7 @@ OMPTARGET = omp_shortpath
 OMPFLAG = -fopenmp
 # FILES
 PATH1 = 1.path
+PATH2 = 2.path
 
 
 # Command: $ make
@@ -27,6 +28,10 @@ pt: $(PTTARGET).cpp $(PTHEADERS)
 # Command: $ make omp1
 omp1: ./$(OMPTARGET).o
 	./$(OMPTARGET).o $(PATH1)
+
+# Command: $make pt1a
+pt2s: ./$(PTTARGET).o
+	./$(PTTARGET).o $(PATH2) s
 
 # Command: $make pt1a
 pt1a: ./$(PTTARGET).o
