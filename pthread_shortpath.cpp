@@ -45,6 +45,8 @@ int main(int argc, char const *argv[]) {
 
   map<string, int>::iterator itr;
 
+  // BRIAN
+  // Pushes start node to already visited because we start there
   //Have to create a map that will show all the nodes that we have visited so far
   vector<string> visited;
   visited.push_back(startNode);
@@ -148,6 +150,13 @@ int main(int argc, char const *argv[]) {
         printMap(distances);
 
       } else {
+        // BRIAN
+        // TODO
+        // Needs to be a case where if the node transversing from isnt found in
+        // distances map. Go through node vector again and check if any existing nodes
+        // from updated distances map point to the node being transversed.
+        // This is to back track because it does not work if we use C as a starting
+        // node.
         cout << "CANNOT FIND PATH TO " << nodes[y].name << endl;
         //cout << "Adding " << dist << " + " << distances.find(key)->second << endl;
       }
