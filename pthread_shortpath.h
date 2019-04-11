@@ -7,6 +7,7 @@
 #include <iterator>
 #include <vector>
 #include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -21,8 +22,10 @@ struct Distance {
   int path;
 };
 
-node setNode(string na, string data);
+node setNode(string nodeName, string data);
 
 int countLines(string file);
 
 void printVisited(vector<string> vec);
+
+void printMap(map<string, int> distMap);
