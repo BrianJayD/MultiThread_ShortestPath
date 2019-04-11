@@ -83,6 +83,11 @@ int main(int argc, char const *argv[]) {
     // BRIAN
     // Go through each path the node goes to
     for (itr = nodes[y].paths.begin(); itr != nodes[y].paths.end(); itr++) {
+      // BRIAN
+      // I got too tired to come up with short variable names.
+      // Gets distance of the node we are checking from the map
+      int currentNodeDist = distances.find(nodes[y].name)->second;
+
       string key = itr->first;            //first node connected
       int dist = itr->second;             //value of the first node connected
 
@@ -116,17 +121,12 @@ int main(int argc, char const *argv[]) {
           visited.push_back(key);
 
           if(distItr != distances.end()) {
-            distItr->second = dist;
+            distItr->second = currentNodeDist + dist;
           }
 
           cout << "NODE " + key + " HAS BEEN VISITED" << endl;
         } else {
           cout << "NODE " + key + " FOUND" << endl;
-
-          // BRIAN
-          // I got too tired to come up with short variable names.
-          // Gets distance of the node we are checking from the map
-          int currentNodeDist = distances.find(nodes[y].name)->second;
 
           // BRIAN
           // If key is found in distances map. Get sum of current node and
@@ -137,8 +137,9 @@ int main(int argc, char const *argv[]) {
             // IF, sum is less than whats in the distances map. Update.
             // ELSE, sum is too large. No update.
             if (distItr->second > sum) {
+              cout << "NODE " + key + " HAS BEEN UPDATED (current=" << distItr->second
+                << " longer than " << sum << ")" << endl;
               distItr->second = sum;
-              cout << "NODE " + key + " HAS BEEN UPDATED" << endl;
             } else {
               cout << "NODE " + key + " TOO FAR, NO UPDATE (current=" << distItr->second
                 << " shorter than " << sum << ")" << endl;
