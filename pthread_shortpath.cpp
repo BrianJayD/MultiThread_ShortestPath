@@ -44,33 +44,36 @@ int main(int argc, char const *argv[]) {
 
     //cout << "NODE: "<< nodes[y].name << endl;
     //cout << "PATHS:" << endl;
-
+    //printVisited(visited);
     //itterate through each possible path connected to the node we are looking at
     for (itr = nodes[y].paths.begin(); itr != nodes[y].paths.end(); itr++) {
       string key = itr->first;            //first node connected
       int dist = itr->second;             //value of the first node connected
 
+
+      bool notVisited = (find(visited.begin(), visited.end(), key) == visited.end());
       //If we have not already visited the node then add it to our visited list
-      if(find(visited.begin(), visited.end(), key) == visited.end()){
+      if(notVisited){
         visited.push_back(key);
+        cout << "value being placed inside vector is: " + key << endl;
         cout << "From node " + nodes[y].name  << endl;
         //new distance = parent node distance plus distance to travel to new node
         map<string, int>::iterator posIter = distances.find(key);
         if(posIter != distances.end()){
-          cout << "Distance to " + key + ": "<< dist << endl;
-          posIter->second = dist;
+          //cout << "Distance to " + key + ": "<< dist + distances.find(nodes[y].name)->second << endl;
+          posIter->second = dist + distances.find(nodes[y].name)->second;
         }
 
 
-        distances.insert(pair<string, int>(key, dist));
+        //distances.insert(pair<string, int>(key, dist));
 
       }else{
         //Now we have to check if this new path to the already visited variable is an improvement
-        if(dist > ){
-
+        if(distances.find(key)->second > dist + distances.find(nodes[y].name)->second && !notVisited ){
+            cout << "KEY HERE: " + nodes[y].name << endl;
+            cout <<  "new distance to " + key + ": " << dist  << " + " << distances.find(nodes[y].name)->second << endl;
         }
         //otherwise we update if we see an improvement
-
         //get the current value of item we are trying to update
       }
       //cout << itr->first << "\t" << itr->second << endl;
@@ -99,6 +102,13 @@ int main(int argc, char const *argv[]) {
 //TODO
 //boolean iterations()
 
+void printVisited(vector<string> vec){
+  cout << "PRINTNG VISITED" << endl;
+  for(int i = 0; i < vec.size();i++){
+    cout << vec[i] + ", ";
+  }
+  cout<< endl;
+}
 
 node setNode(string na, string data) {
 

@@ -24,3 +24,5 @@ struct Distance {
 node setNode(string na, string data);
 
 int countLines(string file);
+
+void printVisited(vector<string> vec);
