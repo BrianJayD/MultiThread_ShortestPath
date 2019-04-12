@@ -15,6 +15,7 @@ OMPFLAG = -fopenmp
 # FILES
 PATH1 = 1.path
 PATH2 = 2.path
+PATH3 = 3.path
 
 
 # Command: $ make
@@ -44,9 +45,25 @@ seq1b: ./$(SEQTARGET).o
 seq1c: ./$(SEQTARGET).o
 	./$(SEQTARGET).o $(PATH1) c
 
+# Command: $ make seq1c
+seq3a: ./$(SEQTARGET).o
+	./$(SEQTARGET).o $(PATH3) a
+
 # Command: $ make omp1a
 omp1a: ./$(OMPTARGET).o
 	./$(OMPTARGET).o $(PATH1) a
+
+# Command: $ make omp1b
+omp1b: ./$(OMPTARGET).o
+	./$(OMPTARGET).o $(PATH1) b
+
+# Command: $ make omp3a
+omp3a: ./$(OMPTARGET).o
+	./$(OMPTARGET).o $(PATH3) a
+
+# Command: $ make omp1b
+omp1c: ./$(OMPTARGET).o
+	./$(OMPTARGET).o $(PATH1) c
 
 # Command: $make pt1a
 pt2s: ./$(PTTARGET).o
