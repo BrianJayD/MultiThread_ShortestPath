@@ -24,9 +24,19 @@ struct Distance {
   int path;
 };
 
+struct thread_data {
+
+  long thread_id;
+  string key;
+  int dist;
+  string startNode;
+  int d;
+
+};
+
 bool isVisited(string toCheck);
 
-void updateDistances(map<string, int>::iterator neighbors, string startNode, int d);
+void updateDistances(string key, int dist, string startNode, int d);
 
 node setNode(string nodeName, string data);
 
@@ -37,3 +47,5 @@ void printVisited(vector<string> vec);
 void printMap(map<string, int> distMap);
 
 bool bellmanFord(int numNodes, map<string, int>::iterator itr, string startNode);
+
+void *startAlgorithm(void *threadarg);
