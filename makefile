@@ -44,9 +44,9 @@ seq1b: ./$(SEQTARGET).o
 seq1c: ./$(SEQTARGET).o
 	./$(SEQTARGET).o $(PATH1) c
 
-# Command: $ make omp1
-omp1: ./$(OMPTARGET).o
-	./$(OMPTARGET).o $(PATH1)
+# Command: $ make omp1a
+omp1a: ./$(OMPTARGET).o
+	./$(OMPTARGET).o $(PATH1) a
 
 # Command: $make pt1a
 pt2s: ./$(PTTARGET).o
