@@ -1,4 +1,3 @@
-#include <omp.h>
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -25,10 +24,9 @@ struct Distance {
   int path;
 };
 
-struct thread_data{
-  
+bool isVisited(string toCheck);
 
-}
+void updateDistances(map<string, int>::iterator neighbors, string startNode, int d);
 
 node setNode(string nodeName, string data);
 

@@ -15,13 +15,6 @@ int main(int argc, char const *argv[]) {
   transform(startNode.begin(), startNode.end(), startNode.begin(), ::toupper);
   cout << "INPUT: " + startNode << endl;
 
-  // BRIAN
-  // Changed node array to node vector
-  //
-  // An array of nodes; a node contains a string name and a map
-
-  //have to make this global
-
   ifstream infile(argv[1]);
 
   string line, name, paths;
@@ -51,12 +44,8 @@ int main(int argc, char const *argv[]) {
 
   map<string, int>::iterator itr;
 
-  // BRIAN
-  // Pushes start node to already visited because we start there
-  //Have to create a map that will show all the nodes that we have visited so far
-  visited.push_back(startNode);
-
   cout << "Node being checked: " + startNode << endl;
+  visited.push_back(startNode);
 
   node initialNode = nodes[vecIndex];
 
@@ -64,23 +53,14 @@ int main(int argc, char const *argv[]) {
   // Prints neighbors... don't remember why I did this.... kind of got high and
   // started doing random shit
   for(itr = initialNode.paths.begin(); itr != initialNode.paths.end(); itr++) {
-    string key = itr->first;            //first node connected
-    int dist = itr->second;             //value of the first node connected
-
-    cout << "PATH: " + key  + " = " << dist << endl;
-    //visited.push_back(key);
+    updateDistances(itr, initialNode.name, 0);
+    cout << "END" << endl << endl;
 
   }
 
   // BRIAN
-  // Prints initial visited vector and distances map
-  cout << endl;
-  printVisited(visited);
-  cout << endl;
-  printMap(distances);
-
-  // BRIAN
   // Go through each node that exists
+  /*
   for(int i = 0; i < nodeIndex; i++){
 
     cout << "////////////////////" << endl;
@@ -99,10 +79,68 @@ int main(int argc, char const *argv[]) {
 
 
   }
-
+  */
   return 0;
 }
 
+bool isVisited(string toCheck) {
+  vector<string>::iterator vecItr = find(visited.begin(), visited.end(), toCheck);
+  if(vecItr != visited.end()) {
+    cout << toCheck << " HAS BEEN VISITED" << endl;
+    return true;
+  }
+  return false;
+}
+
+void updateDistances(map<string, int>::iterator neighbors, string startNode, int d) {
+  string key = neighbors->first;
+  int dist = neighbors->second;
+  int sum = dist + d;
+
+  cout << "START: "<< startNode << endl << "\t";
+
+  map<string, int>::iterator distItr = distances.find(key);
+
+  if(!isVisited(key)) {
+    visited.push_back(key);
+    if(distItr != distances.end()) {
+      cout << "ADDING " + key + " WITH DISTANCE " << sum << endl;
+      distItr->second = sum;
+    }
+  } else {
+    if(distItr->second > sum) {
+      cout << "UPDATING " + key + " WITH DISTANCE " << sum << endl;
+      distItr->second = sum;
+    }
+  }
+
+
+  vector<node>::iterator nodeItr;
+  for(nodeItr = nodes.begin(); nodeItr != nodes.end(); nodeItr++) {
+    string toGo = (*nodeItr).name;
+
+    if(key == toGo) {
+      cout << toGo << endl;
+
+      // BRIAN
+      // Prints initial visited vector and distances map
+      cout << endl;
+      printVisited(visited);
+      cout << endl;
+      printMap(distances);
+
+      map<string, int>::iterator neighborItr;
+
+      for(neighborItr = (*nodeItr).paths.begin(); neighborItr != (*nodeItr).paths.end(); neighborItr++) {
+        //cout << startNode << " to " << key << endl;
+        updateDistances(neighborItr, toGo, sum);
+      }
+    }
+  }
+
+  bool exists = isVisited(key);
+
+}
 
 //create a function here that performs 1 iteration of bellman fords and returns a boolean
 //TODO
@@ -202,6 +240,7 @@ bool bellmanFord(int numNodes, map<string, int>::iterator itr, string startNode)
         // from updated distances map point to the node being transversed.
         // This is to back track because it does not work if we use C as a starting
         // node.
+
         cout << "CANNOT FIND PATH TO " << nodes[y].name << endl;
         //cout << "Adding " << dist << " + " << distances.find(key)->second << endl;
       }
