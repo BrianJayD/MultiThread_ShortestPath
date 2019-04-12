@@ -81,5 +81,9 @@ pt1b: ./$(PTTARGET).o
 pt1c: ./$(PTTARGET).o
 	./$(PTTARGET).o $(PATH1) c
 
+# Command: $make pt3a
+pt3a: ./$(PTTARGET).o
+	./$(PTTARGET).o $(PATH3) a
+
 clean:
 	rm *.o
