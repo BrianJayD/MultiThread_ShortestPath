@@ -1,6 +1,9 @@
 # Compiler
 CC = g++
 # Headers, target and flag for compiling
+# Sequential
+SEQHEADERS = seq_shortpath.h
+SEQTARGET = seq_shortpath
 # PThreads
 PTHEADERS = pthread_shortpath.h
 PTTARGET = pthread_shortpath
@@ -15,7 +18,11 @@ PATH2 = 2.path
 
 
 # Command: $ make
-all: omp pt
+all: seq omp pt
+
+# Command: $ make seq
+seq: $(SEQTARGET).cpp $(SEQHEADERS)
+	$(CC) -o $(SEQTARGET).o $(SEQTARGET).cpp
 
 # Command: $ make omp
 omp: $(OMPTARGET).cpp $(OMPHEADERS)
@@ -24,6 +31,18 @@ omp: $(OMPTARGET).cpp $(OMPHEADERS)
 # Command: $ make pt
 pt: $(PTTARGET).cpp $(PTHEADERS)
 	$(CC) $(PTFLAG) -o $(PTTARGET).o $(PTTARGET).cpp
+
+# Command: $ make seq1a
+seq1a: ./$(SEQTARGET).o
+	./$(SEQTARGET).o $(PATH1) a
+
+# Command: $ make seq1b
+seq1b: ./$(SEQTARGET).o
+	./$(SEQTARGET).o $(PATH1) b
+
+# Command: $ make seq1c
+seq1c: ./$(SEQTARGET).o
+	./$(SEQTARGET).o $(PATH1) c
 
 # Command: $ make omp1
 omp1: ./$(OMPTARGET).o
