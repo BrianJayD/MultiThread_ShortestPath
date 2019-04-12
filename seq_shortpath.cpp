@@ -1,5 +1,4 @@
-#include "pthread_shortpath.h"
-
+#include "seq_shortpath.h"
 
 vector<string> visited;
 map<string, int> distances;
@@ -56,6 +55,11 @@ int main(int argc, char const *argv[]) {
     cout << "END" << endl << endl;
   }
 
+  cout << endl;
+  printVisited(visited);
+  cout << endl;
+  printMap(distances);
+
   return 0;
 }
 
@@ -98,6 +102,7 @@ void updateDistances(map<string, int>::iterator neighbors, string startNode, int
     } else {
       cout << "NO UPDATE NEEDED (Sum=" << sum << " > Current=" <<
         distItr->second << ")"<< endl;
+      return;
     }
   }
 
