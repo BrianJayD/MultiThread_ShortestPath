@@ -79,16 +79,23 @@ int main(int argc, char const *argv[]) {
   #pragma omp parallel for shared(initialNode, adjNodes, adjDist)
   for(int i = 0; i < initialNode.paths.size(); i++) {
     //string nodeStr = initialNode.paths.at(i);
+    /*
     #pragma omp critical
     {
       cout << "THREAD ID  = " << omp_get_thread_num() << endl;
-      cout << adjNodes.at(i) << "\t" << adjDist.at(i) << endl;
-      cout << "-----------------START-----------------" << endl << endl;
-      updateDistances(adjNodes.at(i), adjDist.at(i), initialNode.name, 0);
-      cout << "-----------------END-----------------" << endl << endl;
-    }
+      cout << "WORKING ON " << adjNodes.at(i) << "\t" << adjDist.at(i) << endl;
+    }*/
+
+    cout << "-----------------START-----------------" << endl << endl;
+    updateDistances(adjNodes.at(i), adjDist.at(i), initialNode.name, 0);
+    cout << "-----------------END-----------------" << endl << endl;
 
   }
+
+  cout << endl;
+  printVisited(visited);
+  cout << endl;
+  printMap(distances);
 
 
   return 0;
@@ -99,10 +106,10 @@ int main(int argc, char const *argv[]) {
 bool isVisited(string toCheck) {
   vector<string>::iterator vecItr = find(visited.begin(), visited.end(), toCheck);
   if(vecItr != visited.end()) {
-    cout << toCheck << " HAS BEEN VISITED" << endl;
+    //cout << toCheck << " HAS BEEN VISITED" << endl;
     return true;
   }
-  cout << toCheck << " HAS NOT BEEN VISITED" << endl;
+  //cout << toCheck << " HAS NOT BEEN VISITED" << endl;
   return false;
 }
 
@@ -114,24 +121,34 @@ void updateDistances(string key, int dist, string startNode, int d) {
   cout << "START: "<< startNode << endl << "\t";
 
   map<string, int>::iterator distItr = distances.find(key);
+  bool noUpdate = false;
 
   // BRIAN
   // If node is not visited, add to distances map,
   // else check if sum is less than recorded distance and update if true.
-  if(!isVisited(key)) {
-    visited.push_back(key);
-    if(distItr != distances.end()) {
-      cout << "ADDING " + key + " WITH DISTANCE " << sum << endl;
-      distItr->second = sum;
-    }
-  } else {
-    if(distItr->second > sum) {
-      cout << "UPDATING " + key + " WITH DISTANCE " << sum << endl;
-      distItr->second = sum;
+  #pragma omp critical
+  {
+    if(!isVisited(key)) {
+      visited.push_back(key);
+      if(distItr != distances.end()) {
+        cout << "ADDING " + key + " WITH DISTANCE " << sum << endl;
+        distItr->second = sum;
+
+      }
     } else {
-      cout << "NO UPDATE NEEDED (Sum=" << sum << " > Current=" <<
+      if(distItr->second > sum) {
+        cout << "UPDATING " + key + " WITH DISTANCE " << sum << endl;
+        distItr->second = sum;
+      } else {
+        cout << "NO UPDATE NEEDED (Sum=" << sum << " > Current=" <<
         distItr->second << ")"<< endl;
+        noUpdate = true;
+      }
     }
+  }
+
+  if(noUpdate) {
+    return;
   }
 
   // BRIAN
@@ -148,11 +165,12 @@ void updateDistances(string key, int dist, string startNode, int d) {
 
       // BRIAN
       // Prints initial visited vector and distances map
+      /*
       cout << endl;
       printVisited(visited);
       cout << endl;
       printMap(distances);
-
+      */
       map<string, int>::iterator neighborItr;
 
       // BRIAN
