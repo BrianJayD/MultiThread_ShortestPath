@@ -1,10 +1,5 @@
 #include "omp_shortpath.h"
 
-vector<string> visited;
-map<string, int> distances;
-vector<node> nodes;
-
-
 int main(int argc, char const *argv[]) {
   omp_set_num_threads(NUM_THREADS);
   int num_threads = omp_get_num_threads();

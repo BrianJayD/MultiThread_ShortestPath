@@ -26,6 +26,10 @@ struct Distance {
   int path;
 };
 
+vector<string> visited;
+map<string, int> distances;
+vector<node> nodes;
+
 bool isVisited(string toCheck);
 
 void updateDistances(string key, int dist, string startNode, int d);

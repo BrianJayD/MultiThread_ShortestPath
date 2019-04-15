@@ -1,10 +1,5 @@
 #include "seq_shortpath.h"
 
-vector<string> visited;
-map<string, int> distances;
-vector<node> nodes;
-
-
 int main(int argc, char const *argv[]) {
   int numNodes = countLines(argv[1]);
 

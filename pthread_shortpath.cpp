@@ -1,11 +1,5 @@
 #include "pthread_shortpath.h"
 
-
-vector<string> visited;
-map<string, int> distances;
-vector<node> nodes;
-pthread_mutex_t mutextotal; //mutual exclusion variable for total
-
 int main(int argc, char const *argv[]) {
   int numNodes = countLines(argv[1]);
 
@@ -111,6 +105,9 @@ int main(int argc, char const *argv[]) {
     }
   }
 
+  cout << endl;
+  printVisited(visited);
+  cout << endl;
   printMap(distances);
 
   pthread_mutex_destroy(&mutextotal);

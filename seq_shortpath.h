@@ -23,6 +23,10 @@ struct Distance {
   int path;
 };
 
+vector<string> visited;
+map<string, int> distances;
+vector<node> nodes;
+
 bool isVisited(string toCheck);
 
 void updateDistances(map<string, int>::iterator neighbors, string startNode, int d);
