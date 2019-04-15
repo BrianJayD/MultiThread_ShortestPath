@@ -38,6 +38,17 @@ make pt#@
 make seq1a
 make omp2b
 make pt3c
+
+# NOTE: These commands are only made for nodes within the 3 path
+# files. For self-made path files follow commands after successful
+# compilation. (Replace # and @ accordingly)
+./seq_shortpath.o #.path @
+./omp_shortpath.o #.path @
+./pthread_shortpath.o #.path @
+
+Ex.
+./omp_shortpath.o 4.path g
+
 ```
 
 ### *Sample path image references*
